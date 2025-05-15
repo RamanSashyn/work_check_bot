@@ -1,13 +1,11 @@
 import os
 import requests
-import asyncio
 from dotenv import load_dotenv
-from aiogram import Bot
+from telegram import Bot
 
 
-def send_notification(bot, message, chat_id):
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(bot.send_message(chat_id, message))
+def send_notification(bot, chat_id, message):
+    bot.send_message(chat_id=chat_id, text=message)
 
 
 def main():
@@ -51,7 +49,7 @@ def main():
                             f'Преподавателю все понравилось, можно приступать к следующему уроку!\n\n'
                             f'Ссылка на урок: {lesson_url}'
                         )
-                    send_notification(bot, message, tg_chat_id)
+                    send_notification(bot, tg_chat_id, message)
 
         except requests.exceptions.ReadTimeout:
             continue
