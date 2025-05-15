@@ -13,9 +13,9 @@ def send_notification(bot, message, chat_id):
 def main():
     load_dotenv()
 
-    dvmn_token = os.getenv('DVMN_TOKEN')
-    bot_token = os.getenv('BOT_TOKEN')
-    tg_chat_id = int(os.getenv('TG_CHAT_ID'))
+    dvmn_token = os.environ['DVMN_TOKEN']
+    bot_token = os.environ['BOT_TOKEN']
+    tg_chat_id = int(os.environ['TG_CHAT_ID'])
 
     bot = Bot(token=bot_token)
 
@@ -27,6 +27,7 @@ def main():
     while True:
         try:
             response = requests.get('https://dvmn.org/api/long_polling/', params=params, headers=headers, timeout=90)
+            response.raise_for_status()
             reviews_response = response.json()
 
             if reviews_response['status'] == 'timeout':
