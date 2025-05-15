@@ -5,29 +5,28 @@ from dotenv import load_dotenv
 from aiogram import Bot
 
 
-load_dotenv()
-
-DVMN_TOKEN = os.getenv('DVMN_TOKEN')
-BOT_TOKEN = os.getenv('BOT_TOKEN')
-TG_CHAT_ID = int(os.getenv('TG_CHAT_ID'))
-
-DEV_MAN_URL = 'https://dvmn.org/api/long_polling/'
-headers = {
-    'Authorization': f'Token {DVMN_TOKEN}',
-}
-
-
-def send_notification(bot, message):
+def send_notification(bot, message, chat_id):
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(bot.send_message(TG_CHAT_ID, message))
+    loop.run_until_complete(bot.send_message(chat_id, message))
 
 
 def main():
-    bot = Bot(token=BOT_TOKEN)
+    load_dotenv()
+
+    dvmn_token = os.getenv('DVMN_TOKEN')
+    bot_token = os.getenv('BOT_TOKEN')
+    tg_chat_id = int(os.getenv('TG_CHAT_ID'))
+
+    bot = Bot(token=bot_token)
+
+    headers = {
+        'Authorization': f'Token {dvmn_token}',
+    }
+
     params = {}
     while True:
         try:
-            response = requests.get(DEV_MAN_URL, params=params, headers=headers, timeout=90)
+            response = requests.get('https://dvmn.org/api/long_polling/', params=params, headers=headers, timeout=90)
             reviews_response = response.json()
 
             if reviews_response['status'] == 'timeout':
@@ -51,13 +50,13 @@ def main():
                             f'Преподавателю все понравилось, можно приступать к следующему уроку!\n\n'
                             f'Ссылка на урок: {lesson_url}'
                         )
-                    send_notification(bot, message)
+                    send_notification(bot, message, tg_chat_id)
 
         except requests.exceptions.ReadTimeout:
             continue
         except requests.exceptions.ConnectionError:
             continue
-        except requests.exceptions.JSONDecodeError :
+        except requests.exceptions.JSONDecodeError:
             continue
 
 
