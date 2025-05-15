@@ -1,4 +1,5 @@
 import os
+import time
 import requests
 from dotenv import load_dotenv
 from telegram import Bot
@@ -54,6 +55,7 @@ def main():
         except requests.exceptions.ReadTimeout:
             continue
         except requests.exceptions.ConnectionError:
+            time.sleep(60)
             continue
         except requests.exceptions.JSONDecodeError:
             continue
