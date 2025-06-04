@@ -40,7 +40,7 @@ def main():
     logger = logging.getLogger()
     logger.addHandler(TelegramLogsHandler(bot_token, tg_chat_id))
 
-    logger.info('✅ Бот запущен!')
+    logger.info('Бот запущен!')
 
     headers = {
         'Authorization': f'Token {dvmn_token}',
@@ -88,10 +88,10 @@ def main():
             time.sleep(60)
             continue
         except requests.exceptions.JSONDecodeError as e:
-            logger.warning('⚠️ JSON ошибка: %s', e)
+            logger.warning('JSON ошибка: %s', e)
             continue
         except Exception as e:
-            logger.exception('❗ Бот упал с ошибкой:')
+            logger.exception('Бот упал с ошибкой:')
 
 
 if __name__ == '__main__':
