@@ -90,8 +90,10 @@ def main():
         except requests.exceptions.JSONDecodeError as e:
             logger.warning('JSON ошибка: %s', e)
             continue
-        except Exception as e:
-            logger.exception('Бот упал с ошибкой:')
+        except Exception:
+            logger.exception('❗ Непредвиденная ошибка:')
+            time.sleep(5)
+            continue
 
 
 if __name__ == '__main__':
