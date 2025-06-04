@@ -6,7 +6,9 @@ Telegram-бот, который следит за результатами пр�
 
 ## Environment
 
-Python 3.10+
+- Python 3.8+
+- виртуальное окружение (`venv`)
+- зарегистрированный бот в Telegram
 
 ---
 
@@ -43,7 +45,7 @@ TG_CHAT_ID=ваш_чат_id
 1. Клонируйте проект:
 
 ```bash
-git clone https://github.com/your-username/work-check-bot.git
+git clone git@github.com:your-username/work-check-bot.git
 cd work-check-bot
 ```
 
@@ -57,10 +59,31 @@ python -m venv .venv
 3. Запустите скрипт:
 
 ```bash
-python main.py
+python3 -m venv venv
+source venv/bin/activate
 ```
 
+4. Установите зависимости:
+
+```bash
+pip install -r requirements.txt
+```
 ---
+
+5. Запуск:
+```bash
+python3 main.py
+```
+
+6. Запуск на сервере через systemd:
+   1. Поместите проект в /opt/work_check_bot
+   2. Создайте юнит-файл /etc/systemd/system/work_check_bot.service:
+   3. Запустите:
+   ```bash
+   sudo systemctl daemon-reload
+   sudo systemctl enable work_check_bot
+   sudo systemctl start work_check_bot
+   ```
 
 ## Notes
 
